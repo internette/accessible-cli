@@ -1,6 +1,0 @@
-{
-    "lighthouse": {
-        "is-on-https": 1,
-        "redirects-http": 1
-    }
-}

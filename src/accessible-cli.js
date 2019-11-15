@@ -18,6 +18,10 @@ if(tools.length > 0 ){
 let url = args.filter(arg => arg.indexOf('--url') > -1);
 url = url.length > 0 ? url[0].replace('--url=', '') : 'http://localhost:4000';
 
+let envPath = args.filter(arg => arg.indexOf('--envPath') > -1 );
+envPath = envPath.length > 0 ? envPath[0].replace('--envPath=', '') : './';
+envPath = join(cwd(), envPath);
+
 // This is where all generated reports will be stored
 const reportsFolder = join(cwd(), 'accessible-cli-reports');
 mkdirp(reportsFolder);
@@ -29,6 +33,10 @@ const config = join(cwd(), "./accessibility-config.json");
 if(tools.indexOf('lighthouse') > -1){
     lighthouse = require('./lighthouse-audit')({ url, config });
     completeReport['lighthouse'] = lighthouse;
+}
+if(tools.indexOf('wave') > -1){
+    wave = require('./wave-audit')({ url, config, envPath });
+    completeReport['wave'] = wave;
 }
 
 fs.writeFileSync(join(reportsFolder, 'accessibility.json'), JSON.stringify(completeReport, null, 2), {encoding:'utf8',flag:'w'});
