@@ -27,7 +27,7 @@ const completeReport = {};
 const config = join(cwd(), "./accessibility-config.json");
 
 if(tools.indexOf('lighthouse') > -1){
-    lighthouse = require('./lighthouseAudit-cli')({ url, config });
+    lighthouse = require('./lighthouse-audit')({ url, config });
     completeReport['lighthouse'] = lighthouse;
 }
 
