@@ -16,7 +16,6 @@ module.exports = function(args){
 
     const perfTestWaveConfig = require(config).wave;
     const audits = require(waveReport).categories;
-    const tests = [];
     const errors = [];
 
     for (let audit of Object.keys(perfTestWaveConfig)) {
@@ -26,14 +25,10 @@ module.exports = function(args){
           score: audits[audit].count,
           items: audits[audit].items
         };
-        tests.push(auditObj);
         if (audits[audit].count !== perfTestWaveConfig[audit]) {
           errors.push(auditObj);
         }
     }
     unlinkSync(waveReport);
-    return  {
-        tests: tests,
-        errors: errors
-    }
+    return  errors
 }

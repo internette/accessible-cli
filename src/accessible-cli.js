@@ -1,6 +1,6 @@
 // #!/usr/bin/env node
 
-let lighthouse, webhint, webaimWave;
+let lighthouse, webhint, wave;
 const execSync = require('child_process').execSync;
 const join = require('path').join;
 const process = require('process');
@@ -37,6 +37,11 @@ if(tools.indexOf('lighthouse') > -1){
 if(tools.indexOf('wave') > -1){
     wave = require('./wave-audit')({ url, config, envPath });
     completeReport['wave'] = wave;
+}
+if(tools.indexOf('webhint') > -1){
+    const forceSync = require('sync-rpc');
+    webhint = forceSync(require.resolve('./webhint-audit'));
+    completeReport['webhint'] = webhint({ url, config, envPath });
 }
 
 fs.writeFileSync(join(reportsFolder, 'accessibility.json'), JSON.stringify(completeReport, null, 2), {encoding:'utf8',flag:'w'});

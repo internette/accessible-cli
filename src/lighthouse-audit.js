@@ -10,8 +10,7 @@ const lighthouseReport = join(reportsFolder, 'lighthouseReport.json');
 module.exports = function(args){
   let { url, config } = args;
   const perfTestLightHouseConfig = require(config).lighthouse;
-  
-  const tests = [];
+
   const errors = [];
   
   execSync('npm install lighthouse --save');
@@ -28,14 +27,10 @@ module.exports = function(args){
         .split("[Learn more](")[1]
         .replace(").", "")
     };
-    tests.push(auditObj);
     if (audits[audit].score !== perfTestLightHouseConfig[audit]) {
       errors.push(auditObj);
     }
   }
   unlinkSync(lighthouseReport);
-  return  {
-    tests: tests,
-    errors: errors
-  }
+  return errors
 }
