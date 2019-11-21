@@ -4,11 +4,9 @@ const unlinkSync = require('fs').unlinkSync;
 const process = require('process');
 const cwd = process.cwd;
 
-const reportsFolder = join(cwd(), 'accessible-cli-reports');
-const lighthouseReport = join(reportsFolder, 'lighthouseReport.json');
-
 module.exports = function(args){
-  let { url, config } = args;
+  let { url, config, reportsFolder } = args;
+  const lighthouseReport = join(reportsFolder, 'lighthouseReport.json');
   const perfTestLightHouseConfig = require(config).lighthouse;
 
   const errors = [];
@@ -19,15 +17,15 @@ module.exports = function(args){
   const audits = require(lighthouseReport).audits;
   
   for (let audit of Object.keys(perfTestLightHouseConfig)) {
-    const auditObj = {
-      title: audits[audit].title,
-      requiredScore: perfTestLightHouseConfig[audit],
-      score: audits[audit].score,
-      url: audits[audit].description
-        .split("[Learn more](")[1]
-        .replace(").", "")
-    };
     if (audits[audit].score !== perfTestLightHouseConfig[audit]) {
+      const auditObj = {
+        title: audits[audit].title,
+        requiredScore: perfTestLightHouseConfig[audit],
+        score: audits[audit].score,
+        url: audits[audit].description
+          .split("[Learn more](")[1]
+          .replace(").", "")
+      };
       errors.push(auditObj);
     }
   }

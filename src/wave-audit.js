@@ -1,15 +1,11 @@
 const execSync = require('child_process').execSync;
 const join = require('path').join;
-const cwd = require('process').cwd;
 const unlinkSync = require('fs').unlinkSync;
 
-const reportsFolder = join(cwd(), 'accessible-cli-reports');
-let waveReport = join(reportsFolder, 'WAVE.json');
 
 module.exports = function(args){
-    let { url, envPath, config } = args;
-
-    const reportsFolder = join(cwd(), 'accessible-cli-reports');
+    let { url, envPath, config, reportsFolder } = args;
+    const waveReport = join(reportsFolder, 'WAVE.json');
     
     execSync(`npm install webaim-wave --save`);
     execSync(`webaim-wave --url=${url} --envPath=${envPath} --output=${reportsFolder}`);
@@ -19,13 +15,13 @@ module.exports = function(args){
     const errors = [];
 
     for (let audit of Object.keys(perfTestWaveConfig)) {
-        const auditObj = {
-          title: audits[audit].description,
-          requiredScore: perfTestWaveConfig[audit],
-          score: audits[audit].count,
-          items: audits[audit].items
-        };
-        if (audits[audit].count !== perfTestWaveConfig[audit]) {
+      if (audits[audit].count !== perfTestWaveConfig[audit]) {
+          const auditObj = {
+            title: audits[audit].description,
+            requiredScore: perfTestWaveConfig[audit],
+            score: audits[audit].count,
+            items: audits[audit].items
+          };
           errors.push(auditObj);
         }
     }

@@ -1,13 +1,6 @@
-const execSync = require('child_process').execSync;
-const join = require('path').join;
-const cwd = require('process').cwd;
-const fs = require('fs');
-const unlinkSync = require('fs').unlinkSync;
 const dotenv = require('dotenv');
 
 const { Analyzer } = require('hint');
-
-const reportsFolder = join(cwd(), 'accessible-cli-reports');
 
 const hintrc = {
     connector: {
@@ -25,7 +18,7 @@ const hintrc = {
 
 function analyzeUrl(){
     return (args) => {
-        const { url, config, envPath } = args;
+        const { url, config, envPath, reportsFolder } = args;
         hintrc.hints = require(config).webhint;
         const env = dotenv.config({ path: envPath }).parsed;
         if(env.CLOUDINARY_API_KEY && env.CLOUDINARY_API_SECRET && env.CLOUDINARY_CLOUD_NAME){
