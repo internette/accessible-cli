@@ -1,7 +1,8 @@
 const execSync = require('child_process').execSync;
-const join = require('path').join;
+const path = require('path');
+const join = path.join;
 const unlinkSync = require('fs').unlinkSync;
-
+const appDir = path.resolve('package.json').replace('/package.json', '');
 
 module.exports = function(args){
     let { url, envPath, config, reportsFolder } = args;
@@ -12,7 +13,7 @@ module.exports = function(args){
     } catch (e) {
       execSync('npm install webaim-wave --save');
     }
-    execSync(`${join(cwd(), 'node_modules/.bin/webaim-wave') } --url=${url} --envPath=${envPath} --output=${reportsFolder}`);
+    execSync(`${join(appDir, 'node_modules/.bin/webaim-wave') } --url=${url} --envPath=${envPath} --output=${reportsFolder}`);
 
     const perfTestWaveConfig = require(config).wave;
     const audits = require(waveReport).categories;

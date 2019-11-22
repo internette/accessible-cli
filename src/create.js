@@ -2,7 +2,7 @@ module.exports = function(flag = ''){
     // Required node modules and packages
     const fs = require('fs');
     const path = require('path');
-    const join = require('path').join;
+    const join = path.join;
     const appDir = path.resolve('package.json').replace('/package.json', '');
     const readline = require('readline');
 

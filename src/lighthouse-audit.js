@@ -1,8 +1,8 @@
 const execSync = require('child_process').execSync;
-const join = require('path').join;
+const path = require('path');
+const join = path.join;
 const unlinkSync = require('fs').unlinkSync;
-const process = require('process');
-const cwd = process.cwd;
+const appDir = path.resolve('package.json').replace('/package.json', '');
 
 module.exports = function(args){
   let { url, config, reportsFolder } = args;
@@ -16,7 +16,7 @@ module.exports = function(args){
   } catch (e) {
     execSync('npm install lighthouse --save');
   }
-  execSync( join(cwd(), 'node_modules/.bin/lighthouse') + ' ' + url + ' --output=json --output-path=' + lighthouseReport + ' --quiet --chrome-flags="--headless"');
+  execSync( join(appDir, 'node_modules/.bin/lighthouse') + ' ' + url + ' --output=json --output-path=' + lighthouseReport + ' --quiet --chrome-flags="--headless"');
   
   const audits = require(lighthouseReport).audits;
   

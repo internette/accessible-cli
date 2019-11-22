@@ -1,23 +1,24 @@
 module.exports = function(){
     // Required node modules and packages
-    const join = require('path').join;
-    const cwd = require('process').cwd;
+    const path = require('path');
+    const join = path.join;
     const mkdirp = require('mkdirp');
     const fs = require('fs');
+    const appDir = path.resolve('package.json').replace('/package.json', '');
 
     // Config file
-    const config = join(cwd(), "./accessibility-config.json");
+    const config = join(appDir, "./accessible-config.json");
 
     // Params
     const configFile = require(config);
     const tools = configFile.tools;
     const url = configFile.url.length > 0 ? configFile.url : 'http://localhost:4000';
     let envPath = configFile.envPath.length > 0 ? configFile.envPath : './.env';
-    envPath = envPath.indexOf('./') > - 1 ? join(cwd(), envPath) : envPath;
+    envPath = envPath.indexOf('./') > - 1 ? join(appDir, envPath) : envPath;
 
     // Generated reports location
     let reportsFolder = configFile.outputFolder.length > 0 ? configFile.outputFolder : './accessibility-cli-reports';
-    reportsFolder = reportsFolder.indexOf('./') > -1 ? join(cwd(), reportsFolder) : reportsFolder;
+    reportsFolder = reportsFolder.indexOf('./') > -1 ? join(appDir, reportsFolder) : reportsFolder;
     mkdirp(reportsFolder);
 
     // Build report object and write to file
