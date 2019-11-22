@@ -1,5 +1,5 @@
 {
-  "name": "accessible-cli",
+  "name": "accessible",
   "version": "1.0.0",
   "description": "",
   "main": "src/accessible-cli.js",
@@ -14,6 +14,9 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/internette/accessible-cli/issues"
+  },
+  "bin": {
+    "accessible": "src/accessible-cli.js"
   },
   "homepage": "https://github.com/internette/accessible-cli#readme",
   "dependencies": {
