@@ -7,8 +7,12 @@ module.exports = function(args){
     let { url, envPath, config, reportsFolder } = args;
     const waveReport = join(reportsFolder, 'WAVE.json');
     
-    execSync(`npm install webaim-wave --save`);
-    execSync(`webaim-wave --url=${url} --envPath=${envPath} --output=${reportsFolder}`);
+    try {
+      require.resolve("webaim-wave");
+    } catch (e) {
+      execSync('npm install webaim-wave --save');
+    }
+    execSync(`${join(cwd(), 'node_modules/.bin/webaim-wave') } --url=${url} --envPath=${envPath} --output=${reportsFolder}`);
 
     const perfTestWaveConfig = require(config).wave;
     const audits = require(waveReport).categories;

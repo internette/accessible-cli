@@ -10,8 +10,12 @@ module.exports = function(args){
   const perfTestLightHouseConfig = require(config).lighthouse;
 
   const errors = [];
-  
-  execSync('npm install lighthouse --save');
+
+  try {
+    require.resolve("lighthouse");
+  } catch (e) {
+    execSync('npm install lighthouse --save');
+  }
   execSync( join(cwd(), 'node_modules/.bin/lighthouse') + ' ' + url + ' --output=json --output-path=' + lighthouseReport + ' --quiet --chrome-flags="--headless"');
   
   const audits = require(lighthouseReport).audits;

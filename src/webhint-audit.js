@@ -1,5 +1,10 @@
 const dotenv = require('dotenv');
-
+const execSync = require('child_process').execSync;
+try {
+   require.resolve("hint");
+} catch (e) {
+    execSync('npm install hint --save');
+}
 const { Analyzer } = require('hint');
 
 const hintrc = {
