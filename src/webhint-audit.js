@@ -1,11 +1,4 @@
 const dotenv = require('dotenv');
-const execSync = require('child_process').execSync;
-try {
-   require.resolve("hint");
-} catch (e) {
-    execSync('npm install hint --save');
-}
-const { Analyzer } = require('hint');
 
 const hintrc = {
     connector: {
@@ -22,10 +15,13 @@ const hintrc = {
 }
 
 function analyzeUrl(){
+    const { Analyzer } = require('hint');
     return (args) => {
-        const { url, config, envPath, reportsFolder } = args;
+        const { url, config, envPath } = args;
+        // Create hintrc required for webhint
         hintrc.hints = require(config).webhint;
         const env = dotenv.config({ path: envPath }).parsed;
+        // add Image Optimization if Cloudinary keys set
         if(env.CLOUDINARY_API_KEY && env.CLOUDINARY_API_SECRET && env.CLOUDINARY_CLOUD_NAME){
             hintrc.hints["image-optimization-cloudinary"] = [
                 "error", {
@@ -35,8 +31,9 @@ function analyzeUrl(){
                 }
             ]
         }
-        const webhint = Analyzer.create(hintrc);
-        return webhint.analyze(url).then(response=> {
+        // Create and run webhint analyzer
+        const analyzeMod = Analyzer.create(hintrc);
+        return analyzeMod.analyze(url).then(response=> {
             const problems = response[0].problems;
             const formattedProblems = {};
             for(const hint of Object.keys(hintrc.hints)){

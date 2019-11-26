@@ -35,7 +35,7 @@ module.exports = function(){
     if(tools.indexOf('webhint') > -1){
         const forceSync = require('sync-rpc');
         const webhint = forceSync(require.resolve('./webhint-audit'));
-        completeReport['webhint'] = webhint({ url, config, envPath, reportsFolder });
+        completeReport['webhint'] = webhint({ url, config, envPath });
     }
     fs.writeFileSync(join(reportsFolder, 'accessibility.json'), JSON.stringify(completeReport, null, 2), {encoding:'utf8',flag:'w'});
 }

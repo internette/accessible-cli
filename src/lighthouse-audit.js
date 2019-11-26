@@ -11,11 +11,6 @@ module.exports = function(args){
 
   const errors = [];
 
-  try {
-    require.resolve("lighthouse");
-  } catch (e) {
-    execSync('npm install lighthouse --save');
-  }
   execSync( join(appDir, 'node_modules/.bin/lighthouse') + ' ' + url + ' --output=json --output-path=' + lighthouseReport + ' --quiet --chrome-flags="--headless"');
   
   const audits = require(lighthouseReport).audits;
