@@ -30,7 +30,7 @@ Accessible requires a configuration file (`accessibility-config.json`) and envir
 
         - `lighthouse`: <a href="https://developers.google.com/web/tools/lighthouse" target="_blank">Google Lighthouse</a>
         - `wave`: <a href="https://wave.webaim.org/help" target="_blank">WebAim Wave</a>
-        - `webhint`: <a href="https://webhint.io/docs/user-guide/" target="_blank">Microsoft Webhint</a>
+        - `webhint`: <a href="https://webhint.io/docs/user-guide/" target="_blank">Webhint</a>
 
       Example configuration: `tools: ["lighthouse", "wave"]`
     
